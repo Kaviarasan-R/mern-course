@@ -2,6 +2,35 @@
 
 A comprehensive collection of CSS styling examples covering fundamentals, layouts (Flexbox, Grid), responsive design, animations.
 
+## Setup
+
+Run `live server` in the folder containing `index.html`.
+
+## Lessons
+
+- 01_lesson: Selectors
+- 02_lesson: Colors
+- 03_lesson: Units
+- 04_lesson: Box Model
+- 05_lesson: Typography
+- 06_lesson: Links
+- 07_lesson: Lists
+- 08_lesson: Menu - Mini Project
+- 09_lesson: Display
+- 10_lesson: Floats
+- 11_lesson: Columns
+- 12_lesson: Positions
+- 13_lesson: Flexbox
+- 14_lesson: Grid
+- 15_lesson: Image
+- 16_lesson: Media Queries
+- 17_lesson: Cards - Mini Project
+- 18_lesson: Pseudo Selectors
+- 19_lesson: Variables
+- 20_lesson: Math Functions
+- 21_lesson: Transform
+- 22_lesson: Suggestions
+
 ## Learning Games
 
 - [Flexbox Froggy](https://flexboxfroggy.com/)
@@ -41,7 +70,3 @@ A comprehensive collection of CSS styling examples covering fundamentals, layout
 - [MDN: CSS Transition](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions)
 - [MDN: CSS Animations](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations)
 - [MDN: Organizing Your CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Organizing)
-
-## Setup
-
-Run `live server` in the folder containing `index.html`.

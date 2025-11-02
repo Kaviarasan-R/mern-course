@@ -2,10 +2,6 @@
 
 A comprehensive lessons for typescript.
 
-## References
-
-- [Typescript Official Site](https://www.typescriptlang.org/)
-
 ## Setup (01 - 09 lessons)
 
 ```bash
@@ -36,3 +32,26 @@ Test html:
 npm run build
 npm run preview
 ```
+
+## Lessons
+
+- 01_lesson: Configuration
+- 02_lesson: Basic Types
+- 03_lesson: Arrays & Objects
+- 04_lesson: Functions
+- 05_lesson: Assertions
+- 06_lesson: Classes
+- 07_lesson: Index Signatures & `keyof` Assertions
+- 08_lesson: Generics
+- 09_lesson: Utility Types
+- 10_lesson: Mini Project
+- 11_lesson: React
+- 12_lesson: React Hooks
+- 13_lesson: React `useReducer`
+- 14_lesson: React `useContext`
+- 15_lesson: React - Mini Project 1
+- 16_lesson: React - Mini Project 2
+
+## References
+
+- [Typescript Official Site](https://www.typescriptlang.org/)
