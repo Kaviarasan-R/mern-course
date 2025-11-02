@@ -15,13 +15,15 @@ function ParentMemo() {
   // CASE 1: No state change should trigger re-render for child.
   // CASE 2: Any one state should trigger re-render for child.
   return (
-    <div>
-      <h1>Memo Hook</h1>
+    <div style={{ marginTop: "20px" }}>
+      <h2>Memo Hook</h2>
       <p>Count: {count}</p>
       <p>Other: {other}</p>
 
-      <button onClick={() => setCount((c) => c + 1)}>Increment Count</button>
-      <button onClick={() => setOther((o) => o + 1)}>Increment Other</button>
+      <div style={{ display: "flex", gap: "20px", justifyContent: "center" }}>
+        <button onClick={() => setCount((c) => c + 1)}>Increment Count</button>
+        <button onClick={() => setOther((o) => o + 1)}>Increment Other</button>
+      </div>
 
       <div style={{ marginTop: 10 }}>
         <ChildMemo onClick={handleClick} />

@@ -26,17 +26,24 @@ function UseStateHook() {
   console.log("counter", counter);
 
   return (
-    <>
-      <h1>State Hook</h1>
-
+    <div style={{ marginTop: "20px" }}>
+      <h2>State Hook</h2>
       <p>a: {a}</p>
       <p>counter: {counter}</p>
 
-      <button onClick={() => incrementA()}>a+</button>
-      <button onClick={() => incrementCounter()}>counter+</button>
-
+      <div
+        style={{
+          padding: "20px",
+          display: "flex",
+          gap: "10px",
+          justifyContent: "center",
+        }}
+      >
+        <button onClick={() => incrementA()}>a+</button>
+        <button onClick={() => incrementCounter()}>counter+</button>
+      </div>
       {/* <UseEffectHook value={counter} /> */}
-    </>
+    </div>
   );
 }
 

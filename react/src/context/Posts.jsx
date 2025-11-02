@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import PostContext from "./context/postContext";
+import PostContext from "./postContext";
 
 function Posts(props) {
   const { id } = props;
@@ -9,7 +9,7 @@ function Posts(props) {
 
   return (
     <>
-      <h1>Post Context Hook</h1>
+      <h2>Post Context Hook</h2>
       {/* {posts &&
         posts.slice(0, 5).map((post, idx) => (
           <li key={post.id}>

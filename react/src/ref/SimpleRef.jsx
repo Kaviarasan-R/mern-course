@@ -9,12 +9,12 @@ function SimpleRef() {
   }, [count]); // 0 -> 1
 
   return (
-    <>
-      <h1>Ref Hook</h1>
+    <div style={{ marginTop: "20px" }}>
+      <h2>Ref Hook</h2>
       <p>State: {count}</p> {/* 1 */}
       <p>Ref: {refCount.current}</p> {/* 0 */}
       <button onClick={() => setCount((c) => c + 1)}>Increment</button>
-    </>
+    </div>
   );
 }
 

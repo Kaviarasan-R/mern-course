@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import UserContext from "./context/userContext";
-import PostContext from "./context/postContext";
+import UserContext from "./userContext";
+import PostContext from "./postContext";
 
 function Users(props) {
   const { id } = props;
@@ -11,7 +11,7 @@ function Users(props) {
 
   return (
     <>
-      <h1>User Context Hook</h1>
+      <h2>User Context Hook</h2>
       {id && users.length && users && (
         <li>{userLength + " - " + users[id].firstName}</li>
       )}

@@ -27,7 +27,7 @@ function UseEffectHook(prop) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setPosts(data.posts);
+        setPosts(data.posts?.slice(0, 5));
         setLoading(false);
       })
       .catch((error) => {
@@ -39,9 +39,6 @@ function UseEffectHook(prop) {
   if (loading)
     return (
       <>
-        <button onClick={() => setCounter(counter + 1)}>
-          Use effect increase+
-        </button>
         <h3>Loading posts...</h3>
       </>
     );
@@ -64,14 +61,14 @@ function UseEffectHook(prop) {
       id=""
       className=""
       style={{
-        width: "50%",
+        width: "100%",
         display: "flex",
         margin: "auto",
         flexDirection: "column",
       }}
     >
-      <h1>Effect Hook</h1>
-
+      <h2>Effect Hook</h2>
+      <br />
       {postData}
 
       {/* {!loading && posts && posts.reactions && (

@@ -1,17 +1,18 @@
-# React Tutorial
+# React
+
+A comprehensive guide to react basics.
+
+## Topics Covered
 
 - Components
 - Props
-- State
-- Hooks
-
-## Mandatory React Hooks
-
-- useState
-- useEffect
-- useContext
-- useRef
-- useImperativeHandle
-- useCallback
-- useMemo
-- useReducer
+- React Router Dom
+- React Hooks
+  - useState
+  - useEffect
+  - useContext
+  - useRef
+  - useImperativeHandle
+  - useCallback
+  - useMemo
+  - useReducer

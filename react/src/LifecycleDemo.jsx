@@ -34,10 +34,14 @@ class LifecycleDemo extends React.Component {
 
     // Detect specific state changes
     if (prevState.count !== this.state.count) {
-      console.log(`⚡ Count changed from ${prevState.count} → ${this.state.count}`);
+      console.log(
+        `⚡ Count changed from ${prevState.count} → ${this.state.count}`
+      );
     }
     if (prevState.color !== this.state.color) {
-      console.log(`🎨 Color changed from ${prevState.color} → ${this.state.color}`);
+      console.log(
+        `🎨 Color changed from ${prevState.color} → ${this.state.color}`
+      );
     }
   }
 
@@ -98,7 +102,8 @@ export class LifecycleApp extends React.Component {
   render() {
     return (
       <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-        <h1>React Lifecycle Demo</h1>
+        <h2>React Lifecycle Demo</h2>
+        <br />
         <button onClick={this.toggle}>
           {this.state.show ? "Unmount" : "Mount"} Component
         </button>
@@ -107,4 +112,3 @@ export class LifecycleApp extends React.Component {
     );
   }
 }
-

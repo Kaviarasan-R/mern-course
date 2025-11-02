@@ -18,7 +18,9 @@ function ParentRef() {
 
   useEffect(() => {
     if (divRef.current) {
-      divRef.current.style.backgroundColor = "red";
+      divRef.current.style.backgroundColor = "lightGray";
+      divRef.current.style.padding = "20px";
+      divRef.current.style.borderRadius = "20px";
     }
   }, []);
 
@@ -26,9 +28,16 @@ function ParentRef() {
 
   return (
     <div ref={divRef} style={{ backgroundColor: "red" }}>
-      <h1>Ref & Imperative Handle Hook</h1>
+      <h2>Ref & Imperative Handle Hook</h2>
       <ChildRef ref={childRef} />
-      <div style={{ marginTop: 10 }}>
+      <div
+        style={{
+          marginTop: "10px",
+          display: "flex",
+          gap: "10px",
+          justifyContent: "center",
+        }}
+      >
         <button
           onClick={() => {
             // childRef.current?.focus();

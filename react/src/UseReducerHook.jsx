@@ -21,22 +21,24 @@ function UseReducerHook() {
   const [state, dispatch] = useReducer(reducer, { count: 0, step: 5 });
 
   return (
-    <div>
-      <h1>Reducer Hook</h1>
+    <div style={{ marginTop: "20px" }}>
+      <h2>Reducer Hook</h2>
       <p>Count: {state.count}</p>
-      <button
-        onClick={() => dispatch({ type: "increment", stepper: "increment" })}
-      >
-        Increment
-      </button>
-      <button
-        onClick={() => dispatch({ type: "decrement", stepper: "decrement" })}
-      >
-        Decrement
-      </button>
-      <button onClick={() => dispatch({ type: "reset", stepper: "reset" })}>
-        Reset
-      </button>
+      <div style={{ display: "flex", gap: "20px", justifyContent: "center" }}>
+        <button
+          onClick={() => dispatch({ type: "increment", stepper: "increment" })}
+        >
+          Increment
+        </button>
+        <button
+          onClick={() => dispatch({ type: "decrement", stepper: "decrement" })}
+        >
+          Decrement
+        </button>
+        <button onClick={() => dispatch({ type: "reset", stepper: "reset" })}>
+          Reset
+        </button>
+      </div>
     </div>
   );
 }
