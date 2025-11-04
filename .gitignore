@@ -1,6 +1,15 @@
 .git
 .DS_Store
 
+**/.git
 **/.env
+**/.next
+**/.vscode
 **/.DS_Store
+**/next-env.d.ts
+**/vite-env.d.ts
+
+**/dist/
+**/build/
 **/node_modules/
+
