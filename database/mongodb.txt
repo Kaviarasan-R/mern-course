@@ -1,0 +1,183 @@
+# Aggregation Operators Cheat Sheet
+
+| Operator                                   | Meaning                                 |
+| ------------------------------------------ | --------------------------------------- |
+| `$match`                                   | Filters documents (like `WHERE`)        |
+| `$group`                                   | Groups documents (like `GROUP BY`)      |
+| `$project`                                 | Select or rename fields (like `SELECT`) |
+| `$sort`                                    | Sorts results                           |
+| `$limit`, `$skip`                          | Pagination                              |
+| `$lookup`                                  | Join between collections                |
+| `$unwind`                                  | Flatten arrays                          |
+| `$addFields`                               | Adds computed fields                    |
+| `$avg`, `$sum`, `$max`, `$min`, `$count`   | Aggregation accumulators                |
+| `$gte`, `$lte`, `$gt`, `$lt`, `$eq`, `$ne` | Comparison operators                    |
+
+# PERSONS
+
+db.persons.insertMany([
+  { _id: 1, name: "Alice", age: 28, city: "Delhi" },
+  { _id: 2, name: "Bob", age: 35, city: "Mumbai" },
+  { _id: 3, name: "Charlie", age: 42, city: "Bangalore" }
+])
+
+# CARS
+
+db.cars.insertMany([
+  { _id: 1, model: "Honda Civic", year: 2022, price: 22000, owner_id: 1 },
+  { _id: 2, model: "Toyota Corolla", year: 2021, price: 20000, owner_id: 1 },
+  { _id: 3, model: "Tesla Model 3", year: 2023, price: 45000, owner_id: 2 },
+  { _id: 4, model: "Hyundai i20", year: 2020, price: 12000, owner_id: 3 }
+])
+
+db.persons.insertOne({ _id: 4, name: "David", age: 31, city: "Chennai" })
+
+# READ
+
+db.persons.find()
+db.cars.find({ owner_id: 1 })
+db.persons.find().limit(3)
+db.cars.find().sort({ price: -1 }).limit(2)
+db.persons.find().skip(2).limit(3)
+db.cars.find().sort({ price: -1 }).skip(1).limit(2)
+db.cars.countDocuments();
+db.cars.find().sort({ year: -1 }).skip(skip).limit(limit);
+db.cars.find({ year: { $gte: 2021 } })
+db.persons.find({ city: "Chennai" }, { name: 1, city: 1, _id: 0 })
+
+# UPDATE
+
+db.persons.updateOne({ name: "Alice" }, { $set: { city: "Pune" } })
+db.cars.updateMany({}, { $set: { available: true } })
+db.cars.updateMany({ year: { $lt: 2021 } }, { $set: { oldModel: true } })
+
+# DELETE
+
+db.persons.deleteOne({ name: "David" })
+db.cars.deleteMany({ price: { $lt: 15000 } })
+
+# AGGREGATE
+
+## Find all persons with their cars (like an SQL join):
+db.persons.aggregate([
+  {
+    $lookup: {
+      from: "cars",
+      localField: "_id",
+      foreignField: "owner_id",
+      as: "owned_cars"
+    }
+  }
+])
+
+## Filter results where person owns at least one car:
+
+db.persons.aggregate([
+  {
+    $lookup: {
+      from: "cars",
+      localField: "_id",
+      foreignField: "owner_id",
+      as: "owned_cars"
+    }
+  },
+  { $match: { "owned_cars.0": { $exists: true } } }
+])
+
+## $group (Count how many cars each person owns)
+
+db.cars.aggregate([
+  { $group: { _id: "$owner_id", totalCars: { $sum: 1 } } },
+  { $sort: { totalCars: -1 } }
+])
+
+## $match (Cars priced between 15,000 and 40,000)
+
+db.cars.aggregate([
+  { $match: { price: { $gte: 15000, $lte: 40000 } } },
+  { $project: { model: 1, price: 1, _id: 0 } }
+])
+
+## $lookup + $unwind for flattened join results
+
+db.persons.aggregate([
+  {
+    $lookup: {
+      from: "cars",
+      localField: "_id",
+      foreignField: "owner_id",
+      as: "cars"
+    }
+  },
+  { $unwind: "$cars" },
+  { $project: { name: 1, "cars.model": 1, "cars.price": 1 } }
+])
+
+## $addFields & $sum (Add a computed field [example: price with tax])
+
+db.cars.aggregate([
+  { $addFields: { priceWithTax: { $multiply: ["$price", 1.18] } } }
+])
+
+## Average car price per owner
+
+db.cars.aggregate([
+  { $group: { _id: "$owner_id", avgPrice: { $avg: "$price" } } }
+])
+
+## $lookup & $match (Find owners who have at least one car above ₹25,000)
+
+db.persons.aggregate([
+  {
+    $lookup: {
+      from: "cars",
+      localField: "_id",
+      foreignField: "owner_id",
+      as: "cars"
+    }
+  },
+  { $match: { "cars.price": { $gt: 25000 } } },
+  { $project: { name: 1, "cars.model": 1, "cars.price": 1 } }
+])
+
+# INDEXES
+
+db.persons.getIndexes() # _id is always indexed by default
+
+## Simple Index
+
+db.collection.createIndex({ fieldName: 1 })
+db.persons.createIndex({ city: 1 })
+
+## Compound Index (Multiple Fields)
+
+db.persons.createIndex({ city: 1, age: -1 })
+db.persons.find({ city: "Pune", age: { $gte: 25 } })
+
+## Unique Index
+
+db.cars.createIndex({ model: 1, owner_id: 1 }, { unique: true, name: "unique_model_per_owner" })
+
+## Text Index for Search
+
+db.cars.createIndex({ model: "text" })
+db.cars.find({ $text: { $search: "Tesla" } })
+
+## Index for Range Queries ($gt, $lt, $gte, $lte)
+
+db.cars.createIndex({ price: 1 })
+db.cars.find({ price: { $gte: 20000, $lte: 40000 } })
+
+## View and Drop Indexes
+
+db.cars.getIndexes()
+db.cars.dropIndex("model_1_owner_id_1") # or model_1_owner_id_-1
+db.cars.dropIndexes()
+
+## Compound and Query
+
+db.cars.createIndex({ year: -1, price: 1 })
+db.cars.find({ year: { $gte: 2021 }, price: { $lt: 40000 } })
+
+# TRANSACTIONS [TODO]
+
