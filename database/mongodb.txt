@@ -41,15 +41,15 @@ db.cars.find().sort({ price: -1 }).limit(2)
 db.persons.find().skip(2).limit(3)
 db.cars.find().sort({ price: -1 }).skip(1).limit(2)
 db.cars.countDocuments();
-db.cars.find().sort({ year: -1 }).skip(skip).limit(limit);
 db.cars.find({ year: { $gte: 2021 } })
-db.persons.find({ city: "Chennai" }, { name: 1, city: 1, _id: 0 })
+db.persons.find({ city: "Chennai" }, { name: 1, city: 1, _id: 0 }) # TODO
 
 # UPDATE
 
 db.persons.updateOne({ name: "Alice" }, { $set: { city: "Pune" } })
 db.cars.updateMany({}, { $set: { available: true } })
 db.cars.updateMany({ year: { $lt: 2021 } }, { $set: { oldModel: true } })
+db.cars.updateMany({ year: { $lte: 2021 } }, { $unset: { oldModel: "" } })
 
 # DELETE
 
