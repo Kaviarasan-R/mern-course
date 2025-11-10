@@ -30,6 +30,16 @@
 | JSON         | `->`, `->>`, `@>`                          |
 */
 
+/*
+| Join Type       | Simple Explanation                                                                      |
+| --------------- | --------------------------------------------------------------------------------------- |
+| INNER JOIN      | Returns only matching rows from both tables.                                            |
+| LEFT JOIN       | Returns all rows from the left table and matching ones from the right.                  |
+| RIGHT JOIN      | Returns all rows from the right table and matching ones from the left.                  |
+| FULL OUTER JOIN | Returns all rows from both tables, matching where possible, filling missing with NULLs. |
+| JOIN (default)  | Same as INNER JOIN — only matching rows from both tables.                               |
+*/
+
 -- DATABASE
 
 CREATE DATABASE vehicle OWNER root;
@@ -47,8 +57,7 @@ CREATE TABLE person (
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50),
   age INT,
-  city VARCHAR(50)
-
+  city VARCHAR(50),
   UNIQUE (first_name, last_name, city) -- Unique pairs
 );
 
@@ -57,15 +66,13 @@ CREATE TABLE car (
   brand VARCHAR(50),
   model VARCHAR(50),
   price DECIMAL(10,2),
-  owner_id INT REFERENCES person(person_id) -- 1-M relationship (one person owns many cars)
-
+  owner_id INT REFERENCES person(person_id), -- 1-M relationship (one person owns many cars)
   UNIQUE (brand, model)
 );
 
 CREATE TABLE person_car ( -- For many-to-many (it can be replaced by 1-M)
   person_id INT REFERENCES person(person_id),
   car_id INT REFERENCES car(car_id),
-
   PRIMARY KEY (person_id, car_id)
 ); 
 
@@ -121,9 +128,10 @@ SELECT COUNT(*) AS total_people FROM person;
 SELECT AVG(age) AS avg_age FROM person;
 SELECT MAX(price) AS most_expensive_car FROM car;
 SELECT DISTINCT city FROM person;
-SELECT city, COUNT(*) AS total_people FROM person GROUP BY city HAVING COUNT(*) > 1;
+SELECT city, COUNT(*) AS total_people FROM person GROUP BY city HAVING COUNT(*) >= 1;
 SELECT CONCAT(first_name, ' ', last_name) AS full_name, age FROM person;
-SELECT * FROM employee WHERE name ~* '^a'; -- Find names starting with “A” or “a” using regex
+SELECT * FROM person WHERE first_name ILIKE 'a%'; 
+SELECT * FROM person WHERE first_name ~* '^a'; -- Find names starting with “A” or “a” using regex
 
 -- ARRAY & JSON Examples
 
@@ -134,12 +142,12 @@ CREATE TABLE student (
   data JSONB
 );
 
-INSERT INTO student (name, subjects)
+INSERT INTO student (name, subjects, data)
 VALUES
   ('Alice', ARRAY['Math', 'English', 'History'], '{"student": {"name": "Alice", "city": "Delhi"}, "items": ["Book", "Pen"]}'),
   ('Bob', ARRAY['Physics', 'Chemistry'], '{"student": {"name": "Bob", "city": "Mumbai"}, "items": ["Pencil"]}'),
   ('Charlie', ARRAY['Math', 'Art'], '{"student": {"name": "Charlie", "city": "Delhi"}, "items": ["Book", "Laptop"]}'),
-  ('Diana', ARRAY['Biology', 'Chemistry']);
+  ('Diana', ARRAY['Biology', 'Chemistry'], null);
 
 SELECT name FROM student WHERE subjects @> ARRAY['Math', 'English']; -- Find students who study both Math and English
 SELECT name FROM student WHERE ARRAY['Math'] <@ subjects; -- Inverse operator
@@ -193,7 +201,6 @@ ALTER TABLE car ADD COLUMN condition car_condition DEFAULT 'new';
 -- DELETE
 
 DELETE FROM car WHERE car_id = 5;
-DELETE FROM person WHERE age < 25;
 
 -- JOINS
 
@@ -211,7 +218,7 @@ RIGHT JOIN car c ON p.person_id = c.owner_id; -- Right Join
 
 SELECT p.first_name, c.brand
 FROM person p
-FULL OUTER JOIN car c ON p.person_id = c.owner_id; -- Outer Join
+FULL OUTER JOIN car c ON p.person_id = c.owner_id; -- Full Outer Join
 
 SELECT p.first_name, c.brand, c.model
 FROM person p
@@ -254,7 +261,7 @@ $$ LANGUAGE sql;
 
 SELECT * FROM get_cars_by_owner(1);
 
--- CONTROL FLOW FUNCTION (only available in pl/psql)
+/* CONTROL FLOW FUNCTION (only available in pl/psql) */
 CREATE OR REPLACE FUNCTION car_price_category(price DECIMAL)
 RETURNS TEXT AS $$
 BEGIN
@@ -324,12 +331,7 @@ WHERE age > (SELECT AVG(age) FROM person)
 
 -- INDEXING
 
-CREATE VIEW person_with_cars AS
-SELECT p.first_name, c.brand, c.model, c.price
-FROM person p
-LEFT JOIN car c ON p.person_id = c.owner_id;
-
-CREATE INDEX idx_person_city ON person(city);
+CREATE INDEX idx_person_city ON person(city); -- SELECT * FROM person WHERE city ILIKE 'c%'
 
 CREATE INDEX idx_new_cars_only
 ON car(brand, model)
@@ -337,16 +339,17 @@ WHERE condition = 'new'; -- SELECT * FROM car WHERE condition = 'new';
 
 -- TRANSACTIONS
 
+/* SIMPLE */
 BEGIN;
 INSERT INTO person (first_name, age, city) VALUES ('Zara', 27, 'Boston');
 UPDATE car SET price = price * 0.9 WHERE brand = 'Honda';
 COMMIT; -- or ROLLBACK
 
+/* ADVANCED */
 DO $$
 DECLARE
   v_error BOOLEAN := FALSE;
 BEGIN
-  SAVEPOINT try_action;
   BEGIN
     INSERT INTO person (first_name, age, city) VALUES ('Zara', 27, 'Boston');
     UPDATE car SET price = price * 0.9 WHERE brand = 'Honda';
@@ -355,7 +358,7 @@ BEGIN
   EXCEPTION
     WHEN OTHERS THEN
       v_error := TRUE;
-      ROLLBACK TO SAVEPOINT try_action;
+      ROLLBACK;
       RAISE NOTICE 'Transaction failed, rolled back inner work.';
   END;
 
@@ -370,8 +373,7 @@ $$;
 /* SIMPLE CTE */
 WITH avg_price AS (
   SELECT AVG(price) AS avg_price FROM car
-)
-SELECT * FROM car WHERE price > (SELECT avg_price FROM avg_price);
+) SELECT * FROM car WHERE price > (SELECT avg_price FROM avg_price);
 
 /* CHAINED CTE */
 WITH
@@ -385,8 +387,7 @@ WITH
     FROM person p
     JOIN total_cars t ON p.person_id = t.owner_id
     WHERE t.num_cars >= 2
-  )
-SELECT * FROM rich_people;
+  ) SELECT * FROM rich_people;
 
 -- TRIGGERS
 
