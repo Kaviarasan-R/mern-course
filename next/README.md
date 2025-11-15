@@ -1,4 +1,4 @@
-# Next
+# Next - SSR Framework
 
 A comprehensive guide to next 16 basics.
 
