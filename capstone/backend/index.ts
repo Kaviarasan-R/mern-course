@@ -1,6 +1,6 @@
 import cors from "cors";
 import dotenv from "dotenv";
-import Express from "express";
+import Express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 // import seedDatabase from "./schema/seeders.js";
 import PostRouter from "./routes/posts.js";
@@ -41,9 +41,9 @@ app.use(Express.urlencoded({ extended: false }));
 app.use("/posts", protectRoutes, PostRouter);
 app.use("/users", UserRouter);
 
-app.get("/", (req, res) => res.json({ message: "Hello World!" }));
+app.get("/", (_req, res) => res.json({ message: "Hello World!" }));
 
-app.use((err: any, req: any, res: any, next: any) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(err.status ?? 500).json({
     message: err.message,
     error: err,
