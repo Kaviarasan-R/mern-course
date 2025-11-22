@@ -4,7 +4,7 @@ import PostController from "../controllers/posts";
 const router = Express.Router();
 const Controller = new PostController();
 
-router.get("/all", (req: Request, res: Response) => {
+router.get("/", (req: Request, res: Response) => {
   Controller.getAll(req, res);
 });
 router.get("/:id", (req: Request, res: Response) => {

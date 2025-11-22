@@ -12,8 +12,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+     "typeRoots": ["./node_modules/@types", "./index.d.ts"]
   },
-  "include": ["*.ts"],
+  "include": ["*.ts", "**/*.ts", "types/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

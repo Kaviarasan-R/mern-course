@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 // import seedDatabase from "./schema/seeders";
 import PostRouter from "./routes/posts";
 import UserRouter from "./routes/users";
+import protectRoutes from "./middlewares/protect-routes";
 
 dotenv.config();
 
@@ -37,9 +38,10 @@ app.use(cors(corsOptions));
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: false }));
 
-app.use("/", (req, res) => res.send({ json: "Hello World!" }));
-app.use("/posts", PostRouter);
+app.use("/posts", protectRoutes, PostRouter);
 app.use("/users", UserRouter);
+
+app.use("/", (req, res) => res.send({ json: "Hello World!" }));
 
 app.use((err: any, req: any, res: any, next: any) => {
   res.status(err.status ?? 500).json({
