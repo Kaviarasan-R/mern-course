@@ -50,8 +50,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-// app.listen(process.env.PORT || 3000, () => {
-//   console.log("App is listening...");
-// });
-
-export default app;
+app.listen(process.env.PORT || 3000, () => {
+  console.log("App is listening...");
+});
