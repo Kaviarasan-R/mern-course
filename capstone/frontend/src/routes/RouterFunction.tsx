@@ -5,6 +5,10 @@ import UserItem from "@/components/Users/UserItem";
 import Login from "@/components/Login/Login";
 import Layout from "@/components/Header/Layout";
 import SignUp from "@/components/Login/SignUp";
+import LoginPage from "@/pages/Login";
+import RegisterPage from "@/pages/Register";
+import PostsPage from "@/pages/Posts";
+import UsersPage from "@/pages/Users";
 
 function RouterFunction() {
   return (
@@ -26,6 +30,11 @@ function RouterFunction() {
       <Route path="/signup">
         <Route index element={<SignUp />} />
       </Route>
+
+      <Route path="/new-login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/posts" element={<PostsPage />} />
+      <Route path="/users" element={<UsersPage />} />
     </Routes>
   );
 }
