@@ -1,0 +1,935 @@
+{
+	"info": {
+		"_postman_id": "be478aae-30f9-4161-afcf-1828935e57ea",
+		"name": "Capstone",
+		"description": "Capstone project backend endpoints for MERN course.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14946156"
+	},
+	"item": [
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Get All Posts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwNjA4NywiZXhwIjoxNzYzODA2Njg3fQ.lxqP1J9MflOpBEEspmuH5FaoMxubs6DJmIAz3BOWag0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/posts?page=1&limit=5&order=asc&sortBy=title",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "order",
+									"value": "asc"
+								},
+								{
+									"key": "sortBy",
+									"value": "title"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend_url}}/posts?page=1&limit=5&order=asc&sortBy=title",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "5"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										},
+										{
+											"key": "sortBy",
+											"value": "title"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2457"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"999-vS2abOgUY0sCl1Ut8qD3i1x6BHs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 10:09:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"_id\": \"69216cf199719e30ab031b51\",\n            \"title\": \"Authentication Best Practices\",\n            \"body\": \"Security is paramount in modern web applications. This post covers essential authentication practices including password hashing with bcrypt, JWT tokens, and session management strategies.\",\n            \"createdAt\": \"2025-11-22T07:57:37.516Z\",\n            \"updatedAt\": \"2025-11-22T07:57:37.516Z\",\n            \"user\": {\n                \"_id\": \"69216cf199719e30ab031b47\",\n                \"name\": \"John Doe\",\n                \"username\": \"johndoe\",\n                \"email\": \"john.doe@example.com\"\n            }\n        },\n        {\n            \"_id\": \"69216cf199719e30ab031b4f\",\n            \"title\": \"Building REST APIs with Express\",\n            \"body\": \"Express.js is a minimal and flexible Node.js web application framework that provides a robust set of features for building web and mobile applications. Today we'll cover best practices for creating RESTful APIs.\",\n            \"createdAt\": \"2025-11-22T07:57:37.515Z\",\n            \"updatedAt\": \"2025-11-22T07:57:37.515Z\",\n            \"user\": {\n                \"_id\": \"69216cf199719e30ab031b47\",\n                \"name\": \"John Doe\",\n                \"username\": \"johndoe\",\n                \"email\": \"john.doe@example.com\"\n            }\n        },\n        {\n            \"_id\": \"69216cf199719e30ab031b5d\",\n            \"title\": \"Deployment Strategies for Node.js Apps\",\n            \"body\": \"Taking your application from development to production requires careful planning. We'll explore various deployment options including containers, serverless, and traditional hosting solutions.\",\n            \"createdAt\": \"2025-11-22T07:57:37.520Z\",\n            \"updatedAt\": \"2025-11-22T07:57:37.520Z\",\n            \"user\": {\n                \"_id\": \"69216cf199719e30ab031b49\",\n                \"name\": \"Jane Smith\",\n                \"username\": \"janesmith\",\n                \"email\": \"jane.smith@example.com\"\n            }\n        },\n        {\n            \"_id\": \"69216cf199719e30ab031b4b\",\n            \"title\": \"Getting Started with MongoDB\",\n            \"body\": \"MongoDB is a powerful NoSQL database that stores data in flexible, JSON-like documents. In this post, we'll explore the basics of working with MongoDB and how it differs from traditional relational databases.\",\n            \"createdAt\": \"2025-11-22T07:57:37.514Z\",\n            \"updatedAt\": \"2025-11-22T07:57:37.514Z\",\n            \"user\": {\n                \"_id\": \"69216cf199719e30ab031b47\",\n                \"name\": \"John Doe\",\n                \"username\": \"johndoe\",\n                \"email\": \"john.doe@example.com\"\n            }\n        },\n        {\n            \"_id\": \"69216cf199719e30ab031b55\",\n            \"title\": \"Introduction to React Hooks\",\n            \"body\": \"React Hooks revolutionized how we write React components. In this comprehensive guide, we'll explore useState, useEffect, and custom hooks, along with practical examples for each.\",\n            \"createdAt\": \"2025-11-22T07:57:37.517Z\",\n            \"updatedAt\": \"2025-11-22T07:57:37.517Z\",\n            \"user\": {\n                \"_id\": \"69216cf199719e30ab031b49\",\n                \"name\": \"Jane Smith\",\n                \"username\": \"janesmith\",\n                \"email\": \"jane.smith@example.com\"\n            }\n        }\n    ],\n    \"pagination\": {\n        \"page\": 1,\n        \"limit\": 5,\n        \"total\": 10,\n        \"totalPages\": 2\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get By Post ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwNjA4NywiZXhwIjoxNzYzODA2Njg3fQ.lxqP1J9MflOpBEEspmuH5FaoMxubs6DJmIAz3BOWag0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/posts/69216cf199719e30ab031b51",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"posts",
+								"69216cf199719e30ab031b51"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend_url}}/posts/69216cf199719e30ab031b51",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"posts",
+										"69216cf199719e30ab031b51"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "486"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e6-cVZwGg6fL4Qy253CPSuQ0kipPQ0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 10:14:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"_id\": \"69216cf199719e30ab031b51\",\n        \"title\": \"Authentication Best Practices\",\n        \"body\": \"Security is paramount in modern web applications. This post covers essential authentication practices including password hashing with bcrypt, JWT tokens, and session management strategies.\",\n        \"createdAt\": \"2025-11-22T07:57:37.516Z\",\n        \"updatedAt\": \"2025-11-22T07:57:37.516Z\",\n        \"user\": {\n            \"_id\": \"69216cf199719e30ab031b47\",\n            \"name\": \"John Doe\",\n            \"username\": \"johndoe\",\n            \"email\": \"john.doe@example.com\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwNzg1MiwiZXhwIjoxNzYzODEzODUyfQ.uwtpHnleTJ_yNtHunRwuxDvHtWoAYmS9Yjb7Obd6Fjc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Post 1\",\n    \"body\": \"Testing 1...\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/posts",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Post 1\",\n    \"body\": \"Testing 1...\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/posts",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "403"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"193-DE9Nu/gVHe4KHsOUHlSWeaGZOcA\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 10:37:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Post created successfully\",\n    \"data\": {\n        \"_id\": \"6921927868d6b3027cfbb99f\",\n        \"title\": \"Post 1\",\n        \"body\": \"Testing 1...\",\n        \"user\": {\n            \"_id\": \"69217eac9149eff6fbbbc81b\",\n            \"name\": \"Kaviarasan Rajendran\",\n            \"username\": \"rkavi26\",\n            \"email\": \"kaviarasanofficial26@gmail.com\"\n        },\n        \"postId\": \"bb099e3b-b3f6-43a6-9f82-c7c6000a8cfa\",\n        \"createdAt\": \"2025-11-22T10:37:44.134Z\",\n        \"updatedAt\": \"2025-11-22T10:37:44.134Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwNzg1MiwiZXhwIjoxNzYzODEzODUyfQ.uwtpHnleTJ_yNtHunRwuxDvHtWoAYmS9Yjb7Obd6Fjc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Post 1 (edited)\",\n    \"body\": \"Testing 1.... (edited)\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/posts/6921927868d6b3027cfbb99f",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"posts",
+								"6921927868d6b3027cfbb99f"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Post 1 (edited)\",\n    \"body\": \"Testing 1.... (edited)\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/posts/6921927868d6b3027cfbb99f",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"posts",
+										"6921927868d6b3027cfbb99f"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "422"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a6-ACotp85U7eQkqKhuzuU7mHF76I8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 10:43:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Post updated successfully\",\n    \"data\": {\n        \"_id\": \"6921927868d6b3027cfbb99f\",\n        \"title\": \"Post 1 (edited)\",\n        \"body\": \"Testing 1.... (edited)\",\n        \"user\": {\n            \"_id\": \"69217eac9149eff6fbbbc81b\",\n            \"name\": \"Kaviarasan Rajendran\",\n            \"username\": \"rkavi26\",\n            \"email\": \"kaviarasanofficial26@gmail.com\"\n        },\n        \"postId\": \"bb099e3b-b3f6-43a6-9f82-c7c6000a8cfa\",\n        \"createdAt\": \"2025-11-22T10:37:44.134Z\",\n        \"updatedAt\": \"2025-11-22T10:43:16.657Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwNzg1MiwiZXhwIjoxNzYzODEzODUyfQ.uwtpHnleTJ_yNtHunRwuxDvHtWoAYmS9Yjb7Obd6Fjc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/posts/6921927868d6b3027cfbb99f",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"posts",
+								"6921927868d6b3027cfbb99f"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{backend_url}}/posts/6921927868d6b3027cfbb99f",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"posts",
+										"6921927868d6b3027cfbb99f"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "322"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"142-QXC+b6LF4YwdSm3fT+kcynJJYyI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 10:44:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Post deleted successfully\",\n    \"data\": {\n        \"_id\": \"6921927868d6b3027cfbb99f\",\n        \"title\": \"Post 1 (edited)\",\n        \"body\": \"Testing 1.... (edited)\",\n        \"user\": \"69217eac9149eff6fbbbc81b\",\n        \"postId\": \"bb099e3b-b3f6-43a6-9f82-c7c6000a8cfa\",\n        \"createdAt\": \"2025-11-22T10:37:44.134Z\",\n        \"updatedAt\": \"2025-11-22T10:43:16.657Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwNTQxNywiZXhwIjoxNzYzODA1NzE3fQ.FhUnSRmecxqAPjFVsbf8l2lEySiMaqhfOhJW8G4oxGY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/users?page=1&sort=name&order=desc",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "name"
+								},
+								{
+									"key": "order",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend_url}}/users?page=1&sort=name&order=desc",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "sort",
+											"value": "name"
+										},
+										{
+											"key": "order",
+											"value": "desc"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "686"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2ae-/EL2MMI+BP1FlXe5kjbXPZ41Sk8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 09:58:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"_id\": \"69217eac9149eff6fbbbc81b\",\n            \"name\": \"Kaviarasan Rajendran\",\n            \"username\": \"rkavi26\",\n            \"email\": \"kaviarasanofficial26@gmail.com\",\n            \"createdAt\": \"2025-11-22T09:13:16.168Z\",\n            \"updatedAt\": \"2025-11-22T09:13:16.168Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"69216cf199719e30ab031b49\",\n            \"name\": \"Jane Smith\",\n            \"username\": \"janesmith\",\n            \"email\": \"jane.smith@example.com\",\n            \"createdAt\": \"2025-11-22T07:57:37.513Z\",\n            \"updatedAt\": \"2025-11-22T07:57:37.513Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"69216cf199719e30ab031b47\",\n            \"name\": \"John Doe\",\n            \"username\": \"johndoe\",\n            \"email\": \"john.doe@example.com\",\n            \"createdAt\": \"2025-11-22T07:57:37.426Z\",\n            \"updatedAt\": \"2025-11-22T07:57:37.426Z\",\n            \"__v\": 0\n        }\n    ],\n    \"pagination\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"total\": 3,\n        \"totalPages\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get By User ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwNTc0NSwiZXhwIjoxNzYzODA2MDQ1fQ.bTPXmbRqRrqqYPG2E361npI4boXXjBuSH7T4uVCbn5w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/users/69216cf199719e30ab031b49",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"users",
+								"69216cf199719e30ab031b49"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend_url}}/users/69216cf199719e30ab031b49",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"users",
+										"69216cf199719e30ab031b49"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "220"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"dc-SQw732IoCrHpxNqHHrwiUYT6Pyg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 10:02:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"_id\": \"69216cf199719e30ab031b49\",\n        \"name\": \"Jane Smith\",\n        \"username\": \"janesmith\",\n        \"email\": \"jane.smith@example.com\",\n        \"createdAt\": \"2025-11-22T07:57:37.513Z\",\n        \"updatedAt\": \"2025-11-22T07:57:37.513Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"kaviarasanofficial26@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/users/login",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"kaviarasanofficial26@gmail.com\",\n    \"password\": \"12345678\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/users/login",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "227"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e3-VwBTIMIfvKBPmWCxooKfX7Q2qEQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 10:37:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"e72f92ed-563f-4d6c-8ae1-aff1e2b0a2d5\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwNzg1MiwiZXhwIjoxNzYzODEzODUyfQ.uwtpHnleTJ_yNtHunRwuxDvHtWoAYmS9Yjb7Obd6Fjc\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Kaviarasan Rajendran\",\n    \"username\": \"rkavi26\",\n    \"password\": \"12345678\",\n    \"email\": \"kaviarasanofficial26@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/users/register",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Kaviarasan Rajendran\",\n    \"username\": \"rkavi26\",\n    \"password\": \"12345678\",\n    \"email\": \"kaviarasanofficial26@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/users/register",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "183"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b7-FYq6X25iq3GBvxKZwEfOYW/JwQE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Nov 2025 09:13:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjE3ZWFjOTE0OWVmZjZmYmJiYzgxYiIsImlhdCI6MTc2MzgwMjc5NiwiZXhwIjoxNzYzODAzMDk2fQ.Fa78hMq_Uf_jKBiaSCNujkq0JWB2xaRk0n3qzL2zisU\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

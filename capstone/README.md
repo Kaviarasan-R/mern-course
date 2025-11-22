@@ -1,22 +1,7 @@
 # Capstone
 
-The Books Blog System is a full-stack application built with React 19, TypeScript, Tailwind v4, shadcn/ui, and Redux, offering a responsive interface with pagination, filtering, sorting, and secure user interactions. The backend uses Express.js, MongoDB, and JWT with access-refresh token flow to provide scalable data management and reliable authentication.
+The Posts/Users System is a full-stack capstone project built with React 19, TypeScript, Tailwind v4, shadcn/ui, Redux, Express, JWT authentication, and MongoDB. It delivers a clean, responsive interface with pagination, filtering, and sorting baked in.
 
-## Todo
+Users can register or log in, receive a JWT auth token, and move through protected routes that mirror real-world app flows. Once inside, each user can create, read, update, and delete their own posts, while being safely restricted from modifying anyone else’s content.
 
-#### Frontend:
-
-- Pagination, Filter, Sort & Search.
-- Protected Routes
-- Integrations
-- JWT Auth
-- Fix style issues
-- Clean up
-
-#### Backend:
-
-- Todo backend logic with MongoDB
-- Pagination, Filter, Sort & Search.
-- Postman collection
-
-- README
+**NOTE:** You can also make use of the Postman collection included in the project. It’s exported in JSON v2.1 format and can be imported directly into Postman API from the path `./backend/capstone.postman_collection.json`.
