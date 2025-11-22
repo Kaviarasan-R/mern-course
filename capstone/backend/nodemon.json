@@ -2,5 +2,5 @@
   "watch": ["."],
   "ext": "ts,js,json",
   "ignore": ["dist"],
-  "exec": "tsx -r tsconfig-paths/register server.ts"
+  "exec": "tsx -r tsconfig-paths/register index.ts"
 }

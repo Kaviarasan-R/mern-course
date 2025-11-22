@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-     "typeRoots": ["./node_modules/@types", "./index.d.ts"]
+     "typeRoots": ["./node_modules/@types", "types/index.d.ts"]
   },
   "include": ["*.ts", "**/*.ts", "types/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
