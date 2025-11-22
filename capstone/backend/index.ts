@@ -22,7 +22,11 @@ dotenv.config();
 
 const app = Express();
 
-const whitelist = ["http://localhost:5173", "http://localhost:3000"];
+const whitelist = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://capstone-frontend-five-mu.vercel.app",
+];
 const corsOptions = {
   origin: function (origin: any, callback: any) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
