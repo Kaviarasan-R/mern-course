@@ -82,7 +82,7 @@ async function seedDatabase() {
       for (const postData of userPosts) {
         await Post.create({
           ...postData,
-          userId: createdUsers[i]._id,
+          user: createdUsers[i]._id,
         });
       }
     }

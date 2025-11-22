@@ -36,3 +36,17 @@ export const loginDto = Joi.object({
     "any.required": "Password is required",
   }),
 }).strict();
+
+export const createPostDto = Joi.object({
+  title: Joi.string().required().messages({
+    "any.required": "Title is required",
+  }),
+  body: Joi.string().required().messages({
+    "any.required": "Body is required",
+  }),
+}).strict();
+
+export const updatePostDto = Joi.object({
+  title: Joi.string().optional(),
+  body: Joi.string().optional(),
+}).strict();
