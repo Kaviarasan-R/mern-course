@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { loginDto, registerDto } from "@/helpers/joi-validations.js";
-import User from "@/schema/users.js";
+import { loginDto, registerDto } from "../helpers/joi-validations.js";
+import User from "../schema/users.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
