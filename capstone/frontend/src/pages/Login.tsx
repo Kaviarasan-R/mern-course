@@ -3,46 +3,67 @@
 import type React from "react";
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../slice/authSlice";
+import { getAuthStatus, getAuthError } from "../slice/authSlice";
+import type { AppDispatch } from "../store/store";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Spinner } from "../components/ui/spinner";
+import { toast } from "sonner";
 
-export default function LoginPage() {
+export default function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const status = useSelector(getAuthStatus);
+  const error = useSelector(getAuthError);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {}
+  );
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors: { email?: string; password?: string } = {};
 
-    if (!email) {
+    if (!email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Please provide a valid email address";
+      newErrors.email = "Enter a valid email";
     }
 
     if (!password) {
       newErrors.password = "Password is required";
+    } else if (password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log("Login submitted:", { email, password });
-      // Handle login logic here
+
+    if (!validateForm()) return;
+
+    const resultAction = await dispatch(loginUser({ email, password }));
+
+    if (loginUser.fulfilled.match(resultAction)) {
+      toast.success("Login successful!");
+      setTimeout(() => navigate("/posts"), 500);
+    } else {
+      toast.error(error || "Login failed");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-slate-100 p-4">
-      <Card className="w-full max-w-md shadow-lg border-0">
-        <div className="p-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-2">
               Welcome Back
@@ -52,8 +73,8 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2">
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
               <Label htmlFor="email" className="text-slate-700 font-medium">
                 Email Address
               </Label>
@@ -64,56 +85,65 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  if (errors.email) setErrors({ ...errors, email: "" });
+                  if (errors.email) setErrors({ ...errors, email: undefined });
                 }}
-                className={`h-11 ${errors.email ? "border-red-500" : ""}`}
+                className={`mt-2 ${errors.email ? "border-red-500" : ""}`}
               />
               {errors.email && (
-                <p className="text-xs text-red-500">{errors.email}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
               )}
             </div>
 
-            <div className="space-y-2">
+            <div>
               <Label htmlFor="password" className="text-slate-700 font-medium">
                 Password
               </Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  if (errors.password) setErrors({ ...errors, password: "" });
+                  if (errors.password)
+                    setErrors({ ...errors, password: undefined });
                 }}
-                className={`h-11 ${errors.password ? "border-red-500" : ""}`}
+                className={`mt-2 ${errors.password ? "border-red-500" : ""}`}
               />
               {errors.password && (
-                <p className="text-xs text-red-500">{errors.password}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
               )}
             </div>
 
             <Button
               type="submit"
-              className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium"
+              disabled={status === "loading"}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
             >
-              Sign In
+              {status === "loading" ? (
+                <div className="flex items-center justify-center gap-2">
+                  <Spinner className="w-4 h-4" />
+                  <span>Logging in...</span>
+                </div>
+              ) : (
+                "Login"
+              )}
             </Button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-200">
-            <p className="text-center text-slate-600 text-sm">
+          <div className="mt-6 text-center">
+            <p className="text-slate-600">
               Don't have an account?{" "}
-              <Link
-                to="/register"
-                className="text-blue-600 hover:text-blue-700 font-semibold"
+              <button
+                onClick={() => navigate("/register")}
+                className="text-blue-600 hover:text-blue-700 font-semibold transition"
               >
                 Create one
-              </Link>
+              </button>
             </p>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

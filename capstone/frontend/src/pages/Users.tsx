@@ -1,231 +1,239 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers, updateFilters } from "../slice/usersSlice";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+  getUsersData,
+  getUsersPagination,
+  getUsersFilters,
+  getUsersStatus,
+} from "../slice/usersSlice";
+import { getToken } from "../slice/authSlice";
+import type { AppDispatch } from "../store/store";
+import { Input } from "../components/ui/input";
+import { Spinner } from "../components/ui/spinner";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-interface User {
-  _id: string;
-  name: string;
-  username: string;
-  email: string;
-  createdAt: string;
-}
+export default function Users() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const token = useSelector(getToken);
 
-// Dummy users data
-const DUMMY_USERS: User[] = [
-  {
-    _id: "69217eac9149eff6fbbbc81b",
-    name: "Kaviarasan Rajendran",
-    username: "rkavi26",
-    email: "kaviarasanofficial26@gmail.com",
-    createdAt: "2025-11-22T09:13:16.168Z",
-  },
-  {
-    _id: "69216cf199719e30ab031b49",
-    name: "Jane Smith",
-    username: "janesmith",
-    email: "jane.smith@example.com",
-    createdAt: "2025-11-22T07:57:37.513Z",
-  },
-  {
-    _id: "69216cf199719e30ab031b47",
-    name: "John Doe",
-    username: "johndoe",
-    email: "john.doe@example.com",
-    createdAt: "2025-11-22T07:57:37.426Z",
-  },
-  {
-    _id: "4",
-    name: "Alice Johnson",
-    username: "alicej",
-    email: "alice.johnson@example.com",
-    createdAt: "2025-11-21T10:20:15.000Z",
-  },
-  {
-    _id: "5",
-    name: "Bob Wilson",
-    username: "bobwilson",
-    email: "bob.wilson@example.com",
-    createdAt: "2025-11-20T14:35:22.000Z",
-  },
-  {
-    _id: "6",
-    name: "Carol Martinez",
-    username: "carolm",
-    email: "carol.martinez@example.com",
-    createdAt: "2025-11-19T08:45:30.000Z",
-  },
-];
+  const users = useSelector(getUsersData);
+  const pagination = useSelector(getUsersPagination);
+  const filters = useSelector(getUsersFilters);
+  const status = useSelector(getUsersStatus);
 
-export default function UsersPage() {
-  const [users] = useState<User[]>(DUMMY_USERS);
-  const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const ITEMS_PER_PAGE = 5;
-
-  const filteredUsers = useMemo(() => {
-    return users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(search.toLowerCase()) ||
-        user.username.toLowerCase().includes(search.toLowerCase()) ||
-        user.email.toLowerCase().includes(search.toLowerCase())
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+    dispatch(
+      fetchUsers({
+        page: pagination.page,
+        search: filters.search,
+        sortBy: filters.sortBy,
+        order: filters.order,
+      })
     );
-  }, [users, search]);
+  }, []);
 
-  const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
-  const paginatedUsers = filteredUsers.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  const handleSearch = (value: string) => {
+    dispatch(updateFilters({ search: value }));
+    dispatch(
+      fetchUsers({
+        page: 1,
+        search: value,
+        sortBy: filters.sortBy,
+        order: filters.order,
+      })
+    );
+  };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  const handleSort = (sortBy: "createdAt" | "name", order: "asc" | "desc") => {
+    dispatch(updateFilters({ sortBy, order }));
+    dispatch(
+      fetchUsers({
+        page: 1,
+        search: filters.search,
+        sortBy,
+        order,
+      })
+    );
+  };
+
+  const handlePageChange = (newPage: number) => {
+    dispatch(
+      fetchUsers({
+        page: newPage,
+        search: filters.search,
+        sortBy: filters.sortBy,
+        order: filters.order,
+      })
+    );
   };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 p-6">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">Users</h1>
-          <p className="text-slate-600">Browse and manage community members</p>
+          <h1 className="text-4xl font-bold text-slate-900 mb-2">
+            Users Directory
+          </h1>
+          <p className="text-slate-600">Browse all registered users</p>
         </div>
 
-        {/* Search */}
-        <Card className="p-6 mb-6 border-0 shadow-md">
-          <Input
-            placeholder="Search by name, username, or email..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="h-11"
-          />
-        </Card>
+        {/* Filters */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Input
+              placeholder="Search by name or username..."
+              value={filters.search}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="md:col-span-2"
+            />
+
+            <select
+              value={filters.sortBy}
+              onChange={(e) =>
+                handleSort(
+                  e.target.value as "createdAt" | "name",
+                  filters.order
+                )
+              }
+              className="border rounded-lg px-3 py-2 text-slate-700"
+            >
+              <option value="createdAt">Sort by Joined Date</option>
+              <option value="name">Sort by Name</option>
+            </select>
+          </div>
+
+          <div className="mt-4 flex gap-2">
+            <button
+              onClick={() => handleSort(filters.sortBy, "desc")}
+              className={`px-4 py-2 rounded-lg font-medium transition ${
+                filters.order === "desc"
+                  ? "bg-blue-600 text-white"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              Newest First
+            </button>
+            <button
+              onClick={() => handleSort(filters.sortBy, "asc")}
+              className={`px-4 py-2 rounded-lg font-medium transition ${
+                filters.order === "asc"
+                  ? "bg-blue-600 text-white"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              Oldest First
+            </button>
+          </div>
+        </div>
 
         {/* Users Table */}
-        <Card className="border-0 shadow-md overflow-hidden">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-slate-100 border-b border-slate-200">
-                  <TableHead className="font-bold text-slate-900 py-4">
-                    Name
-                  </TableHead>
-                  <TableHead className="font-bold text-slate-900">
-                    Username
-                  </TableHead>
-                  <TableHead className="font-bold text-slate-900">
-                    Email
-                  </TableHead>
-                  <TableHead className="font-bold text-slate-900">
-                    Joined
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {paginatedUsers.length > 0 ? (
-                  paginatedUsers.map((user) => (
-                    <TableRow
-                      key={user._id}
-                      className="border-b border-slate-200 hover:bg-slate-50 transition-colors"
-                    >
-                      <TableCell className="font-medium text-slate-900 py-4">
-                        {user.name}
-                      </TableCell>
-                      <TableCell className="text-slate-700">
-                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                          @{user.username}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-slate-700">
-                        {user.email}
-                      </TableCell>
-                      <TableCell className="text-slate-600 text-sm">
-                        {formatDate(user.createdAt)}
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={4}
-                      className="text-center py-12 text-slate-600"
-                    >
-                      No users found
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+        {status === "loading" && users.length === 0 ? (
+          <div className="flex justify-center items-center h-64">
+            <Spinner className="w-8 h-8" />
           </div>
-        </Card>
+        ) : (
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-100 border-b border-slate-200">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">
+                      Name
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">
+                      Username
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">
+                      Email
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">
+                      Joined Date
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200">
+                  {users.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={4}
+                        className="px-6 py-8 text-center text-slate-600"
+                      >
+                        No users found
+                      </td>
+                    </tr>
+                  ) : (
+                    users.map((user) => (
+                      <tr
+                        key={user._id}
+                        className="hover:bg-slate-50 transition"
+                      >
+                        <td className="px-6 py-4 font-medium text-slate-900">
+                          {user.name}
+                        </td>
+                        <td className="px-6 py-4 text-slate-700">
+                          @{user.username}
+                        </td>
+                        <td className="px-6 py-4 text-slate-600">
+                          {user.email}
+                        </td>
+                        <td className="px-6 py-4 text-slate-600">
+                          {new Date(user.createdAt).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
         {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex justify-center mt-8">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                    className={
-                      currentPage === 1
-                        ? "pointer-events-none opacity-50"
-                        : "cursor-pointer"
-                    }
-                  />
-                </PaginationItem>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (page) => (
-                    <PaginationItem key={page}>
-                      <PaginationLink
-                        onClick={() => setCurrentPage(page)}
-                        isActive={page === currentPage}
-                        className="cursor-pointer"
-                      >
-                        {page}
-                      </PaginationLink>
-                    </PaginationItem>
-                  )
-                )}
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() =>
-                      setCurrentPage(Math.min(totalPages, currentPage + 1))
-                    }
-                    className={
-                      currentPage === totalPages
-                        ? "pointer-events-none opacity-50"
-                        : "cursor-pointer"
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+        {pagination.totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-8">
+            <button
+              onClick={() => handlePageChange(pagination.page - 1)}
+              disabled={pagination.page === 1}
+              className="p-2 rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              <ChevronLeft size={20} className="text-slate-600" />
+            </button>
+
+            <div className="flex gap-2">
+              {Array.from(
+                { length: pagination.totalPages },
+                (_, i) => i + 1
+              ).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-3 py-2 rounded-lg font-medium transition ${
+                    page === pagination.page
+                      ? "bg-blue-600 text-white"
+                      : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(pagination.page + 1)}
+              disabled={pagination.page === pagination.totalPages}
+              className="p-2 rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              <ChevronRight size={20} className="text-slate-600" />
+            </button>
           </div>
         )}
       </div>

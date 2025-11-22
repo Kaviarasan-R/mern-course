@@ -3,59 +3,23 @@
 import type React from "react";
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../slice/authSlice";
+import { getAuthStatus, getAuthError } from "../slice/authSlice";
+import type { AppDispatch } from "../store/store";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Spinner } from "../components/ui/spinner";
+import { toast } from "sonner";
 
-const validateRegister = (data: {
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-}) => {
-  const errors: Record<string, string> = {};
+export default function Register() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const status = useSelector(getAuthStatus);
+  const error = useSelector(getAuthError);
 
-  // Name validation
-  if (!data.name) {
-    errors.name = "Name is required";
-  } else if (data.name.length < 2) {
-    errors.name = "Name must be at least 2 characters long";
-  }
-
-  // Username validation
-  if (!data.username) {
-    errors.username = "Username is required";
-  } else if (!/^[a-zA-Z0-9]+$/.test(data.username)) {
-    errors.username = "Username must contain only alphanumeric characters";
-  } else if (data.username.length < 3) {
-    errors.username = "Username must be at least 3 characters long";
-  } else if (data.username.length > 30) {
-    errors.username = "Username must be less than 30 characters";
-  }
-
-  // Email validation
-  if (!data.email) {
-    errors.email = "Email is required";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    errors.email = "Please provide a valid email address";
-  }
-
-  // Password validation
-  if (!data.password) {
-    errors.password = "Password is required";
-  } else if (data.password.length < 8) {
-    errors.password = "Password must be at least 8 characters long";
-  } else if (!/^[a-zA-Z0-9!@#$%^&*()_+=-]{8,30}$/.test(data.password)) {
-    errors.password =
-      "Password must be 8-30 characters and include only letters, numbers, or !@#$%^&*()_+=-";
-  }
-
-  return errors;
-};
-
-export default function RegisterPage() {
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -64,41 +28,76 @@ export default function RegisterPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    if (!formData.username.trim()) {
+      newErrors.username = "Username is required";
+    } else if (formData.username.trim().length < 3) {
+      newErrors.username = "Username must be at least 3 characters";
+    } else if (!/^[a-zA-Z0-9_-]+$/.test(formData.username)) {
+      newErrors.username =
+        "Username can only contain letters, numbers, underscore, and dash";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Enter a valid email";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    const resultAction = await dispatch(registerUser(formData));
+
+    if (registerUser.fulfilled.match(resultAction)) {
+      toast.success("Registration successful! Redirecting...");
+      setTimeout(() => navigate("/posts"), 500);
+    } else {
+      toast.error(error || "Registration failed");
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const validationErrors = validateRegister(formData);
-
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Register submitted:", formData);
-      // Handle registration logic here
-    } else {
-      setErrors(validationErrors);
+      setErrors((prev: any) => ({ ...prev, [name]: undefined }));
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-slate-100 p-4">
-      <Card className="w-full max-w-md shadow-lg border-0">
-        <div className="p-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-2">
               Create Account
             </h1>
-            <p className="text-slate-600">
-              Join us and start sharing your thoughts
-            </p>
+            <p className="text-slate-600">Join us today and start posting</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
+          <form onSubmit={handleRegister} className="space-y-5">
+            <div>
               <Label htmlFor="name" className="text-slate-700 font-medium">
                 Full Name
               </Label>
@@ -108,14 +107,14 @@ export default function RegisterPage() {
                 placeholder="John Doe"
                 value={formData.name}
                 onChange={handleChange}
-                className={`h-11 ${errors.name ? "border-red-500" : ""}`}
+                className={`mt-2 ${errors.name ? "border-red-500" : ""}`}
               />
               {errors.name && (
-                <p className="text-xs text-red-500">{errors.name}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
               )}
             </div>
 
-            <div className="space-y-2">
+            <div>
               <Label htmlFor="username" className="text-slate-700 font-medium">
                 Username
               </Label>
@@ -125,14 +124,14 @@ export default function RegisterPage() {
                 placeholder="johndoe"
                 value={formData.username}
                 onChange={handleChange}
-                className={`h-11 ${errors.username ? "border-red-500" : ""}`}
+                className={`mt-2 ${errors.username ? "border-red-500" : ""}`}
               />
               {errors.username && (
-                <p className="text-xs text-red-500">{errors.username}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.username}</p>
               )}
             </div>
 
-            <div className="space-y-2">
+            <div>
               <Label htmlFor="email" className="text-slate-700 font-medium">
                 Email Address
               </Label>
@@ -143,14 +142,14 @@ export default function RegisterPage() {
                 placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleChange}
-                className={`h-11 ${errors.email ? "border-red-500" : ""}`}
+                className={`mt-2 ${errors.email ? "border-red-500" : ""}`}
               />
               {errors.email && (
-                <p className="text-xs text-red-500">{errors.email}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
               )}
             </div>
 
-            <div className="space-y-2">
+            <div>
               <Label htmlFor="password" className="text-slate-700 font-medium">
                 Password
               </Label>
@@ -158,37 +157,45 @@ export default function RegisterPage() {
                 id="password"
                 name="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder="At least 8 characters"
                 value={formData.password}
                 onChange={handleChange}
-                className={`h-11 ${errors.password ? "border-red-500" : ""}`}
+                className={`mt-2 ${errors.password ? "border-red-500" : ""}`}
               />
               {errors.password && (
-                <p className="text-xs text-red-500">{errors.password}</p>
+                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
               )}
             </div>
 
             <Button
               type="submit"
-              className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium mt-6"
+              disabled={status === "loading"}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
             >
-              Create Account
+              {status === "loading" ? (
+                <div className="flex items-center justify-center gap-2">
+                  <Spinner className="w-4 h-4" />
+                  <span>Creating account...</span>
+                </div>
+              ) : (
+                "Register"
+              )}
             </Button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-200">
-            <p className="text-center text-slate-600 text-sm">
+          <div className="mt-6 text-center">
+            <p className="text-slate-600">
               Already have an account?{" "}
-              <Link
-                to="/login"
-                className="text-blue-600 hover:text-blue-700 font-semibold"
+              <button
+                onClick={() => navigate("/login")}
+                className="text-blue-600 hover:text-blue-700 font-semibold transition"
               >
                 Sign in
-              </Link>
+              </button>
             </p>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -1,41 +1,38 @@
 import { Routes, Route } from "react-router-dom";
-import BooksDisplay from "@/components/Books/BooksDisplay";
-import UserList from "@/components/Users/UserList";
-import UserItem from "@/components/Users/UserItem";
-import Login from "@/components/Login/Login";
-import Layout from "@/components/Header/Layout";
-import SignUp from "@/components/Login/SignUp";
-import LoginPage from "@/pages/Login";
-import RegisterPage from "@/pages/Register";
-import PostsPage from "@/pages/Posts";
-import UsersPage from "@/pages/Users";
+
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import Posts from "@/pages/Posts";
+import Users from "@/pages/Users";
+import Navbar from "@/components/Navbar";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 function RouterFunction() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<BooksDisplay />} />
-      </Route>
-      <Route path="/home" element={<Layout />}>
-        <Route index element={<BooksDisplay />} />
-      </Route>
-      <Route path="/home/users">
-        <Route index element={<UserList />} />
-        <Route path=":userId" element={<UserItem />} />
-      </Route>
-      <Route path="/login">
-        <Route index element={<Login />} />
-        <Route path="/login/home" element={<BooksDisplay />} />
-      </Route>
-      <Route path="/signup">
-        <Route index element={<SignUp />} />
-      </Route>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      <Route path="/new-login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/posts" element={<PostsPage />} />
-      <Route path="/users" element={<UsersPage />} />
-    </Routes>
+        <Route
+          path="/posts"
+          element={
+            <ProtectedRoute>
+              <Posts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <Users />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </>
   );
 }
 

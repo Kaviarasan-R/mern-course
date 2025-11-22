@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @import "tw-animate-css";
 
@@ -116,7 +116,7 @@
     /* Breakpoints - Min width */
     --breakpoint-xs: 20rem;
     --color-gray-500: #6b7280;
-    
+
     /* Font family */
     --font-nunito: Nunito, sans-serif;
   }
@@ -134,17 +134,4 @@ nav ul li {
 
 button {
   cursor: pointer;
-}
-
-@layer utilities {
-  .disabled-button {
-    cursor: pointer;
-  }
-
-  .disabled-button:disabled,
-  .disabled-button[disabled] {
-    /* gray-500 */
-    background-color: #6b7280;
-    cursor: not-allowed;
-  }
 }
