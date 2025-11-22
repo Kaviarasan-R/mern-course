@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import Post from "./posts";
-import User from "./users";
+import Post from "@/schema/posts.js";
+import User from "@/schema/users.js";
 import bcrypt from "bcryptjs";
 dotenv.config();
 

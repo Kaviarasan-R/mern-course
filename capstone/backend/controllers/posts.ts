@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Post from "../schema/posts";
-import { createPostDto, updatePostDto } from "@/helpers/joi-validations";
+import Post from "@/schema/posts.js";
+import { createPostDto, updatePostDto } from "@/helpers/joi-validations.js";
 
 class PostController {
   async getAll(req: Request, res: Response): Promise<any> {

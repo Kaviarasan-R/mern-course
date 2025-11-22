@@ -2,10 +2,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import Express from "express";
 import mongoose from "mongoose";
-// import seedDatabase from "./schema/seeders";
-import PostRouter from "./routes/posts";
-import UserRouter from "./routes/users";
-import protectRoutes from "./middlewares/protect-routes";
+// import seedDatabase from "@/schema/seeders.js";
+import PostRouter from "@/routes/posts.js";
+import UserRouter from "@/routes/users.js";
+import protectRoutes from "@/middlewares/protect-routes.js";
 
 dotenv.config();
 
