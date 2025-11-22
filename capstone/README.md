@@ -6,11 +6,15 @@ The Books Blog System is a full-stack application built with React 19, TypeScrip
 
 #### Frontend:
 
-- Pagination, Filter, Sort &
+- Pagination, Filter, Sort & Search.
+- Protected Routes
+- Integrations
+- JWT Auth
 - Fix style issues
 - Clean up
 
 #### Backend:
 
 - Todo backend logic with MongoDB
-- Integration with Frontend
+- Pagination, Filter, Sort & Search.
+- Postman collection
