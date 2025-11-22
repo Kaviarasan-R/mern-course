@@ -27,7 +27,7 @@ A comprehensive guide to node js & databases.
   "watch": ["."],
   "ext": "ts,js,json",
   "ignore": ["dist"],
-  "exec": "ts-node -r tsconfig-paths/register server.ts"
+  "exec": "ts-node -r tsconfig-paths/register index.ts"
 }
 ```
 
@@ -37,9 +37,9 @@ A comprehensive guide to node js & databases.
 ```
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "baseUrl": ".",
     "paths": { "@/*": ["*"] },
     "outDir": "./dist",
@@ -49,20 +49,19 @@ A comprehensive guide to node js & databases.
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
   },
   "include": ["*.ts"],
   "exclude": ["node_modules", "dist"]
 }
 ```
 
-- Add `type: "module"` in `package.json`
 - Replace below snippet in existing `scripts`
 
 ```
 {
   "dev": "nodemon",
   "build": "tsc && tsc-alias",
-  "start": "node dist/server.js"
+  "start": "node dist/index.js"
 }
 ```

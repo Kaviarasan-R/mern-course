@@ -41,7 +41,7 @@ app.use(Express.urlencoded({ extended: false }));
 app.use("/posts", protectRoutes, PostRouter);
 app.use("/users", UserRouter);
 
-app.use("/", (req, res) => res.json({ json: "Hello World!" }));
+app.get("/", (req, res) => res.json({ message: "Hello World!" }));
 
 app.use((err: any, req: any, res: any, next: any) => {
   res.status(err.status ?? 500).json({
@@ -50,6 +50,8 @@ app.use((err: any, req: any, res: any, next: any) => {
   });
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log("App is listening...");
-});
+// app.listen(process.env.PORT || 3000, () => {
+//   console.log("App is listening...");
+// });
+
+export default app;
