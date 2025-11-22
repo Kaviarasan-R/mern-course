@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 import Express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 // import seedDatabase from "./schema/seeders.js";
-import PostRouter from "./routes/posts.js";
-import UserRouter from "./routes/users.js";
-import protectRoutes from "./middlewares/protect-routes.js";
+import PostRouter from "./routes/posts";
+import UserRouter from "./routes/users";
+import protectRoutes from "./middlewares/protect-routes";
 
 dotenv.config();
 

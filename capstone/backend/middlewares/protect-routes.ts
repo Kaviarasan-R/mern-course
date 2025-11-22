@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import User from "../schema/users.js";
+import User from "../schema/users";
 
 const protectRoutes = async (
   req: Request,
