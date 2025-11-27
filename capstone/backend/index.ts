@@ -26,6 +26,7 @@ const whitelist = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://capstone-frontend-five-mu.vercel.app",
+  "https://test-capstone-frontend.vercel.app",
 ];
 const corsOptions = {
   origin: function (origin: any, callback: any) {
